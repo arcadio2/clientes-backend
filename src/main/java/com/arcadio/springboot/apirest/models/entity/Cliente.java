@@ -27,25 +27,27 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity 
 @Table(name = "clientes")
 public class Cliente {
-	@Id // indica que es la llave primaria
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // como se genera la llave, si es autoincrement, etc
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long id;
-	/* Los demas se mapean al campo que se llame exactamente igual */
-	// @Column(name = "nombre") // esto por si se llama diferente
-	@NotEmpty
-	@Size(min = 4)
+
+	@NotEmpty(message = "Debes escribir un nombre")
+	@Size(min = 4, message = "El nombre debe tener al menos 4 caracteres")
+	@Column(nullable = false)
 	private String nombre;
 	
-	@NotEmpty
+	@NotEmpty(message = "Debes escribir un apellido")
+	@Size(min = 4, message = "El apellido debe tener al menos 4 caracteres")
 	private String apellido;
 	
-	@NotEmpty
-	@Email
+	@NotEmpty(message = "Debes escribir un email")
+	@Email (message = "El formato de email es inválido")
+	@Column(nullable = false, unique = true)
 	private String email; 
 
-	@NotNull
+	//@NotNull
 	@Column(name = "create_at")
-	@Temporal(TemporalType.DATE) // en que formato se guarda en la bd
+	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	//@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") //para respuyesto json
 	private Date createAt;
