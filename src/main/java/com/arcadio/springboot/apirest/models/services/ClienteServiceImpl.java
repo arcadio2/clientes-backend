@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.arcadio.springboot.apirest.models.dao.IClienteDao;
 import com.arcadio.springboot.apirest.models.entity.Cliente;
+import com.arcadio.springboot.apirest.models.entity.Region;
 
 @Service
 public class ClienteServiceImpl implements IClienteService{
@@ -47,6 +48,21 @@ public class ClienteServiceImpl implements IClienteService{
 	@Transactional(readOnly = true) 
 	public Page<Cliente> findAll(Pageable pageable) {
 		return clienteDao.findAll(pageable);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Region> findAllRegiones() {
+		
+		return clienteDao.findAllRegions();
+	}
+
+	@Override
+	public boolean existeEmail(String email) {
+		if(clienteDao.findClienteByEmail(email)!=null) {
+			return true; 
+		}
+		return false;
 	}
 
 }

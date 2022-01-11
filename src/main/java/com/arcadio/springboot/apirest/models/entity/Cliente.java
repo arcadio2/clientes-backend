@@ -5,10 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,6 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity 
@@ -55,18 +58,23 @@ public class Cliente {
 	
 	private String foto;
 
-	
+	@NotNull(message = "la región no puede ser vacía")
+	@ManyToOne(fetch = FetchType.LAZY)//carga perezosa	
+	@JoinColumn(name = "region_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})//solo dejamos id y nombre
+	private Region region; 
+	  
 	private static final long serialVersionUID = 1L;
 
 	@PrePersist //para que se ejecute antes de crear un registro
 	public void prePersist() {
-		createAt = new Date();
-	}
+		createAt = new Date();  
+	} 
 
-	
-	public Long getId() {
+	 
+	public Long getId() { 
 		return id;
-	}
+	} 
 
 	public void setId(Long id) {
 		this.id = id;
@@ -116,6 +124,18 @@ public class Cliente {
 		this.foto = foto;
 	}
 	
+	
+	
+
+	public Region getRegion() {
+		return region;
+	}
+
+
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+
 
 	@Override
 	public String toString() {

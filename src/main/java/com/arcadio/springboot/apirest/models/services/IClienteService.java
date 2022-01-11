@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.arcadio.springboot.apirest.models.entity.Cliente;
+import com.arcadio.springboot.apirest.models.entity.Region;
 
 
 
@@ -18,6 +19,8 @@ public interface IClienteService {
 	public Cliente save(Cliente cliente); 
 	public void delete(Long id); 
 	public Page<Cliente> findAll(Pageable pageable);
+	public List<Region> findAllRegiones();
+	public boolean existeEmail(String email);
 	/*
 	public List<Producto> findByNombre(String term); 
 	public List<Producto> findByNombre2(String term);
